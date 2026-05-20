@@ -42,4 +42,19 @@ def parse_log(filename):
             "WARN": ["lento"],
         }
     """
-    pass  # Reemplazar con tu implementación
+    diccionario = {}
+    with open(filename, mode="r", encoding="utf-8") as f:
+        for linea in f:
+            if linea.strip() == "":
+                continue
+            if ":" not in linea:
+                raise ValueError("invalid log line")
+            nivel, mensaje = linea.split(":", 1)
+            nivel_limpio = nivel.strip()
+            mensaje_limpio = mensaje.strip()
+            if nivel_limpio in diccionario:
+                diccionario[nivel_limpio].append(mensaje_limpio)
+            else:
+                diccionario[nivel_limpio] = [mensaje_limpio]
+    return diccionario
+        
